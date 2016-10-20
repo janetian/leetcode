@@ -1,0 +1,50 @@
+Question7: Reverse Integer
+
+Reverse digits of an integer.
+
+Example1: x = 123, return 321
+Example2: x = -123, return -321 
+
+
+
+Answer:
+class Solution 
+{
+public:
+	int reverse(int x) 
+	{
+		// check whether the int is negative	
+		bool isNeg = false;
+		if (x < 0)    	
+		{
+			x = 0 - x;   // convert the int to positive
+			isNeg = true;
+		}
+	
+		// conver the int
+		// int res = 0;
+		int imax = std::numeric_limits<int>::max();
+		long long res = 0;
+		int temp = x;
+		int first;
+		while (temp > 0)
+		{
+			first = temp % 10;
+			temp = temp / 10;
+			res = res * 10 + first;
+			if (res > imax)
+			{
+				res = 0;
+			}
+		}
+	
+		// change the int back to negative if needed
+		if (isNeg)
+		{
+			res = 0 - res;
+		}
+
+		return res;
+
+	}
+};
