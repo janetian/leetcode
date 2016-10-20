@@ -1,0 +1,85 @@
+Question 6: ZigZag Conversion
+
+The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+
+P   A   H   N
+A P L S I I G
+Y   I   R
+
+And then read line by line: "PAHNAPLSIIGYIR"
+
+Write the code that will take a string and make this conversion given a number of rows:
+
+string convert(string text, int nRows);
+
+convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR". 
+
+
+Answer:
+
+class Solution 
+{
+public:
+	string convert(string s, int numRows)
+	{
+		if (numRows <= 1)
+		{
+			return s;
+		}
+		
+		// create an empty 2D array
+		vector<vector<char> > my_matrix;
+		for (int i = 0; i < numRows; ++i)
+		{
+			std::vector<char> char_vec_temp;
+			my_matrix.push_back(char_vec_temp);
+		}
+
+		// assign the char of input string into the 2D array
+		bool is_going_down = true;
+		size_t work_row = 0;
+		for (int i = 0; i < s.size(); ++i)
+		{
+			my_matrix[work_row].push_back(s[i]);
+
+			if (is_going_down)
+			{
+				if (work_row == (numRows - 1))
+				{
+					is_going_down = false;
+					--work_row;
+				}
+				else
+				{
+					++work_row;
+				}
+			}
+			else
+			{
+				if (work_row == 0)
+				{
+					is_going_down = true;
+					++work_row;
+				}
+				else
+				{
+					--work_row;
+				}
+			}
+		}
+
+		// assemble the elements in the 2D array into the output string
+		string output;
+		for (int i = 0; i < my_matrix.size(); ++i) // every row
+		{
+			for (int j = 0; j < my_matrix[i].size(); ++j) // every column
+			{
+				output.push_back(my_matrix[i][j]);
+				//cout << my_matrix[i][j];
+			}
+			//cout << endl;
+		}
+
+		return output;
+	}
+};
