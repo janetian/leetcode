@@ -8,8 +8,7 @@ Example2: x = -123, return -321
 
 
 Answer:
-class Solution 
-{
+class Solution {
 public:
 	int reverse(int x) 
 	{
