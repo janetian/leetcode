@@ -1,0 +1,48 @@
+217. Contains Duplicate 
+
+Given an array of integers, find if the array contains any duplicates. 
+Your function should return true if any value appears at least twice in the array, 
+and it should return false if every element is distinct. 
+
+Answer 1 (using sort)
+class Solution {
+public:
+bool containsDuplicate(vector<int>& nums)
+{
+	if (nums.size() == 0)
+	{
+		return false;
+	}
+	sort(nums.begin(), nums.end());
+	for (int i = 0; i < nums.size()-1; i++)
+	{
+		if (nums[i] == nums[i + 1])   // Duplicate
+		{
+			return true;
+		}
+	}
+	return false;
+}
+};
+
+
+Answer 2 (using set)
+class Solution {
+public:
+bool containsDuplicate(vector<int>& nums)
+{
+	set<int> setOfNumbers;
+	for (int i = 0; i < nums.size(); i++)
+	{
+		if (setOfNumbers.find(nums[i]) != setOfNumbers.end()) // found
+		{
+			return true;
+		}
+		else  // not found
+		{
+			setOfNumbers.insert(nums[i]);
+		}
+	}
+	return false;
+}
+};
