@@ -55,6 +55,6 @@ public:
     	{
     		result = result ^ t[i];
     	}
-    	return result;
+    	return (char)result;
     }
 };

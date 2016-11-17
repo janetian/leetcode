@@ -35,3 +35,29 @@ public:
     	return isHappy(sum);
     }
 };
+
+
+class Solution {
+private:
+    unordered_set<int> mySet;
+public:
+    bool isHappy(int n) 
+    {
+    	if (n == 1)
+    	{
+    		return true;
+    	}
+    	if (mySet.find(n) != mySet.end())
+    	{
+    		return false;
+    	}
+    	mySet.insert(n);
+    	int sum = 0;
+    	while (n > 0)
+    	{
+    		sum += pow(n % 10, 2);
+    		n = n / 10;
+    	}
+    	return isHappy(sum);
+    }
+};
