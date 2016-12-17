@@ -1,0 +1,109 @@
+257. Binary Tree Paths
+
+Given a binary tree, return all root-to-leaf paths.
+
+For example, given the following binary tree:
+
+   1
+ /   \
+2     3
+ \
+  5
+
+All root-to-leaf paths are:
+
+["1->2->5", "1->3"]
+
+
+Answer:
+
+class Solution {
+public:
+	vector<string> binaryTreePaths(TreeNode* root)
+	{
+		vector<string> result;
+
+		// sanity check, this is not base condition
+		if (!root)
+		{
+			return result;
+		}
+
+		//
+		// base condition
+		//
+		if (root->left == NULL && root->right == NULL)
+		{
+			result.push_back(to_string(root->val));
+			// debug print
+			for (size_t i = 0; i < result.size(); i++)
+			{
+				cout << result[i] << endl;
+			}
+			return result;
+		}
+		
+		//
+		// n -> n+1
+		//
+		vector<string> res_left;
+		if (root->left != NULL)
+		{
+			res_left = binaryTreePaths(root->left);
+		}
+		for (size_t i = 0; i < res_left.size(); i++)
+		{
+			result.push_back(to_string(root->val) + "->" + res_left[i]);
+		}
+
+		vector<string> res_right;
+		if (root->right != NULL)
+		{
+			 res_right = binaryTreePaths(root->right);
+		}
+		for (size_t i = 0; i < res_right.size(); i++)
+		{
+			result.push_back(to_string(root->val) + "->" + res_right[i]);
+		}
+
+		// debug print
+		cout << root->val << ", ";
+		for (size_t i = 0; i < result.size(); i++)
+		{
+			cout << result[i] << " ";
+		}
+		cout << endl;
+		return result;
+	}
+};
+
+int main()
+{
+	TreeNode* myNode;
+	myNode = new TreeNode(1);
+	TreeNode* myNode1;
+	myNode1 = new TreeNode(2);
+	TreeNode* myNode2;
+	myNode2 = new TreeNode(3);
+	TreeNode* myNode3;
+	myNode3 = new TreeNode(5);
+	myNode->left = myNode1;
+	myNode->right = myNode2;
+	myNode1->right = myNode3;
+
+
+	Solution my_solution;
+	vector<string> result = my_solution.binaryTreePaths(myNode);
+	cout << "final result:" << endl;
+	for (size_t i = 0; i < result.size(); i++)
+		cout << result[i] << endl;
+
+	delete myNode;
+	delete myNode1;
+	delete myNode2;
+	delete myNode3;
+	
+
+	system("pause");
+	return 0;
+}

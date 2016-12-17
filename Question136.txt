@@ -1,0 +1,70 @@
+136. Single Number 
+
+Given an array of integers, every element appears twice except for one. Find that single one.
+
+Note:
+Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory? 
+
+
+Answer:
+
+//using map
+int singleNumber(vector<int>& nums)
+{
+	int result;
+	unordered_map<int, bool> um;  // first int is the value, second how many times the vaule appear
+	for (int i = 0; i < nums.size(); i++)
+	{
+		unordered_map<int, bool>::const_iterator found = um.find(nums[i]);
+		if (found != um.end()) // found
+		{
+			um[nums[i]] = false;
+		}
+		else
+		{
+			um.insert({nums[i], true});
+		}
+	}
+
+	for (auto it = um.begin(); it != um.end(); ++it)
+	{
+		if (it->second == true)
+		{
+			return it->first;
+		}
+	}
+	return 0;
+}
+
+
+
+//using set
+int singleNumber(vector<int>& nums)
+{
+	unordered_set<int> mySet;
+	for (int i = 0; i < nums.size(); i++)
+	{
+		if (mySet.find(nums[i]) == mySet.end())
+		{
+			mySet.insert(nums[i]);
+		}
+		else
+		{
+			mySet.erase(nums[i]);
+		}
+	}
+	/*unordered_set<int>::iterator*/auto it = mySet.begin();
+	return *it;
+}
+
+
+// using bit
+int singleNumber(vector<int>& nums)
+{
+	int result = 0;
+	for (int i = 0; i < nums.size(); i++)
+	{
+		result = result ^ nums[i];
+	}
+	return result;
+}

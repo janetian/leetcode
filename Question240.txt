@@ -1,0 +1,134 @@
+240. Search a 2D Matrix II
+
+Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+
+    Integers in each row are sorted in ascending from left to right.
+    Integers in each column are sorted in ascending from top to bottom.
+
+For example,
+
+Consider the following matrix:
+
+[
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
+
+Given target = 5, return true.
+
+Given target = 20, return false.
+
+Answer:
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) 
+    {
+        int row = matrix.size();
+		int col = matrix[0].size();
+		int r = 0;
+		int c = col - 1;
+		while (r < row && c >= 0)
+		{
+			if (matrix[r][c] == target)
+			{
+				return true;
+			}
+			else if (matrix[r][c] < target)
+			{
+				r++;
+			}
+			else  // (matrix[r][c] > target)
+			{
+				c--;
+			}
+		}
+		return false;
+        
+    }
+};
+
+// binary search
+class Solution
+{
+public:
+	bool searchMatrix(vector<vector<int>>& matrix, int target)
+	{
+		// step 1: output row_number - the first row whose last number is equal or larger than target; if you can't find, row_number = 0
+		// case b: no no no yes yes  (find the first yes)
+		// binary search / linear search / just check 0
+		int row_number;
+		int col_size = matrix[0].size() - 1;
+		int low = 0;
+		int high = matrix.size() - 1;
+		int mid;
+		while (low < high)
+		{
+			mid = low + (high - low) / 2;
+			if (matrix[mid][col_size] >= target)
+			{
+				high = mid;
+			}
+			else  // (matrix[mid][col_size] < target)
+			{
+				low = mid + 1;
+			}
+		}
+		if (matrix[low][col_size] == target)
+		{
+			return true;
+		}
+		else if (matrix[low][col_size] > target)  // case: no no no no no no
+		{
+			return false;
+		}
+		else  
+		{
+			row_number = low;
+		}
+
+		// step 2: output true/false, loop through each row
+		int lo = 0, hi = matrix[0].size() - 1;
+		for (int j = row_number; j < matrix.size(); ++j)
+		{
+			//int lo = 0, hi = matrix[0].size() - 1;
+			// step 2a: find the element, if not find the biggest element smaller the target
+			//  no no no no yes yes yes (find the last no)
+			// return false, true  
+			while (lo < hi)  
+			{
+				int mid = lo + (hi - lo + 1) / 2;
+				if (matrix[j][mid] > target)
+				{
+					hi = mid - 1;
+				}
+				else
+				{
+					lo = mid;
+				}
+			}
+			if (matrix[j][lo] == target)
+			{
+				return true;
+			}
+			else if (matrix[j][lo] > target)  // yes yes yes yes yes
+			{
+				return false;
+			}
+			else
+			{
+				row_number++;
+			}
+			
+			// step 2b: update lo, hi for next row, if not found
+			hi = lo;
+			lo = 0;
+		}
+
+		return false;
+	}
+	
+};
