@@ -1,37 +1,29 @@
-278. First Bad Version
+279. Perfect Squares
 
-You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
+Given a positive integer n, find the least number of perfect square numbers 
+(for example, 1, 4, 9, 16, ...) which sum to n.
 
-Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
-
-You are given an API bool isBadVersion(version) which will return whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API. 
-
-
+For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 
+because 13 = 4 + 9. 
 
 Answer:
 
-// Forward declaration of isBadVersion API.
-bool isBadVersion(int version);
-
 class Solution {
 public:
-    int firstBadVersion(int n) 
+    int numSquares(int n) 
     {
-        int low = 1;
-        int high = n;
-        int middle;
-        while (low < high)
-        {
-            middle = low + (high - low)/2;
-            if (isBadVersion(middle))
-            {
-                high = middle;
-            }
-            else
-            {
-                low = middle + 1;
-            }
-        }
-        return low;
+        int *min = new int[n + 1];
+		for (int i = 0; i <= n; i++)
+		{
+			min[i] = i;
+			for (int j = 1; j * j<= i; j++)
+			{
+				if (min[i - j * j] + 1 < min[i])
+				{
+					min[i] = min[i - j * j] + 1;
+				}
+			}
+		}
+		return min[n];
     }
-};
+};  
